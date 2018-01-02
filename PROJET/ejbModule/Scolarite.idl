@@ -1,0 +1,59 @@
+module Scolarite
+{
+	struct Extrait
+	{
+		unsigned long idExtrait;
+		string titre;
+		string description;
+		string src;
+		boolean activee;
+	};
+
+	typedef sequence<Extrait> Extraits;
+
+	struct Formation
+	{
+		unsigned long idFormation;
+		string titre;
+		string description;
+		long duree;
+		long ancienPrix;
+		long prixOffre;
+		long effectifGroupe;
+		long effectifMax;
+		long totalInscription;
+		boolean actif;	
+		Extraits extraits;
+	};
+
+	typedef sequence<Formation> Formations;
+
+	exception ExceptionFormation{
+		wstring message;
+	};
+
+	exception ExceptionExtrait{
+		wstring message;
+	};
+
+	interface GestionFormation
+	{
+		void ajouterFormation(in Formation formation) raises (ExceptionFormation);
+		void modifierFormation(in Formation formation) raises (ExceptionFormation);
+		void deleteFormation(in unsigned long  idFormation) raises (ExceptionFormation);
+		void desactiverFormation(in unsigned long idFormation) raises (ExceptionFormation);
+		Formation getFormationByID(in unsigned long idFormation) raises (ExceptionFormation);
+		Formations listFormation() raises (ExceptionFormation);
+	};
+	
+	interface GestionExtrait
+	{
+		void ajouterExtrait(in Extrait extrait, in unsigned long idFormation) raises (ExceptionExtrait);
+		void modifierExtrait(in Extrait extrait) raises (ExceptionExtrait);
+		void changerFormationExtrait(in Extrait extrait, in unsigned long idNewFormation) raises (ExceptionExtrait);
+		void deleteExtrait(in unsigned long idExtrait) raises (ExceptionExtrait);
+		void desactiverExtrait(in unsigned long idFormation) raises (ExceptionExtrait);
+		Extrait getExtraitByID(in unsigned long idExtrait) raises (ExceptionExtrait);
+		Extraits listExtraitFormation(in unsigned long idFormation) raises (ExceptionExtrait);
+	};
+};
